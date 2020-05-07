@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+*{
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0;
+    user-select: none;
+}
+a{
+  text-decoration: none;
+  cursor: pointer;
+}
+#navbar{
+  height: 10vh;
+  width: 100%;
+  background-color: rgb(49, 49, 49);
+}
+body {
+  overflow-x: hidden;
+}  
+
+#mainpage{
+  padding-top: 13vh;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(102, 102, 102);
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 25px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.center{
+  text-align: center;
+}
+.subordinate{
+  padding-left: 20px;
+}

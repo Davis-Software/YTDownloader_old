@@ -36,7 +36,7 @@ try {
 
 
 function init_settings (){
-    const def_config = {"theme":"dark", "devMode": false}
+    const def_config = {"theme":"dark", "devMode": false, "ffmpeg":""}
     if(!fs.existsSync(setfile)){
         fs.writeFileSync(setfile, JSON.stringify(def_config));
     }

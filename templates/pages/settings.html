@@ -1,0 +1,25 @@
+<h2 class="center">Settings</h2>
+<hr class="bg-white">
+<h5>Appearance</h5>
+<div id="set-appearance-div" class="subordinate">
+    <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle setval" data-toggle="dropdown" getval="theme" placeholder="Theme:">Theme</button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="setTheme('Dark'); update();">Dark</a>
+            <a class="dropdown-item" onclick="setTheme('Light'); update();">Light</a>
+        </div>
+    </div>
+</div>
+<hr class="bg-secondary">
+<h5>Downloader</h5>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text">ffmpeg</span>
+    </div>
+    <input type="text" class="form-control" placeholder="C:\\Path\\To\\YOUR\\\ffmpeg" id="ffmpeg-input" disabled>
+    <div class="input-group-append">
+        <button class="btn btn-danger" id="ffmpeg-change" onclick="change_ffmpeg();">Change</button>
+    </div>
+</div>
+<script src="./../static/js/settings.js"></script>
+<script src="./../../renderer/theme.js"></script>

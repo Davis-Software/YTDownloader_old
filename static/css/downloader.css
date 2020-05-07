@@ -1,0 +1,15 @@
+#video-preview{
+    padding: 20px;
+    background-color: gray;
+    min-height: 250px;
+    width: 500px;
+}
+#video-thumbnail{
+    height: 160px;
+}
+.link{
+    color: rgb(0, 110, 255);
+}
+#dwn-config{
+    padding-right: 10px;
+}

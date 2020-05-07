@@ -4,8 +4,7 @@ function setTheme(theme=undefined){
     if(theme!=undefined){
         setVal("theme", theme)
     }
-    if(getVal("theme")=="light"){
-        main.setAttribute("theme", "light");
+    if(getVal("theme")=="Light"){
         tag.innerHTML += `<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">`;
     }
     else{
