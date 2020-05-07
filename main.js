@@ -3,6 +3,7 @@ const {autoUpdater} = require('electron-updater');
 const sethandle = require("./settingshandler.js");
 const menuhandle = require("./renderer/menu.js");
 const app = electron.app;
+var filesystem = require("fs")
 const BrowserWindow = electron.BrowserWindow
 
 sethandle.init_settings()
@@ -35,6 +36,16 @@ function createWindow () {
     }
   }else{
     app.quit()
+  }
+  if(filesystem.existsSync("./tools") && !filesystem.existsSync(sethandle.cachedir + "/tools")){
+    console.log("copy")
+    filesystem.mkdirSync(sethandle.cachedir + "/tools")
+    if(iswin32){
+      filesystem.copyFileSync("./tools/ffmpeg.exe", sethandle.cachedir + "/tools/ffmpeg.exe")
+    }else{
+      filesystem.copyFileSync("./tools/ffmpeg", sethandle.cachedir + "/tools/ffmpeg")
+    }
+    console.log("done")
   }
 }
 

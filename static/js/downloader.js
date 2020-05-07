@@ -3,8 +3,12 @@ var filesystem = require("fs")
 var { dialog } = require('electron').remote
 var { shell } = require('electron')
 // var { exec } = require('child_process');
-var { execSync } = require('child_process');
+// var { execSync } = require('child_process');
+var { spawnSync } = require("child_process")
 var info;
+
+var ffmpeg = cachedir + "/tools/ffmpeg"
+if(process.platform === "win32"){ffmpeg+=".exe"}
 
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -41,7 +45,7 @@ function download(){
     var ready = false;
     var saveto = `${dwn_savepath.value}/`;
     var itag = dwn_formatselect.options[dwn_formatselect.selectedIndex].value;
-    if(itag=="highest" && getVal("ffmpeg")==""){show_alert("Highest Video&Audio requires ffmpeg, please specify in Settings!", "danger")}
+    if(itag=="highest" && !filesystem.existsSync(ffmpeg)){show_alert("Highest Video&Audio requires ffmpeg, please specify in Settings!", "danger")}
     else{
         if(filesystem.existsSync(dwn_savepath.value)){
             if(customNamecheck.checked){
@@ -61,12 +65,13 @@ function download(){
                 dwn_start.hidden = true;
                 dwn_prog.hidden = false;
                 dwn_abort.hidden = false;
+                var url = urlinput.value
                 if(itag=="highest"){
-                    var videostream = ytdl(urlinput.value, {
+                    var videostream = ytdl(url, {
                         filter: "videoonly",
                         quality: "highestvideo"
                     });
-                    var audiostream = ytdl(urlinput.value, {
+                    var audiostream = ytdl(url, {
                         filter: "audioonly",
                         quality: "highestaudio"
                     });
@@ -109,7 +114,8 @@ function download(){
                         dwn_progressbar.style.width = "100%";
                         dwn_progressbar.innerText = "Converting";
                         try {
-                            execSync(`${getVal("ffmpeg")} -i "${tempvid}" -i "${tempaud}" -c:v copy "${saveto}"`);
+                            // execSync(`${ffmpeg} -i "${tempvid}" -i "${tempaud}" -c:v copy "${saveto}"`);
+                            spawnSync(`${ffmpeg}`,["-i", tempvid, "-i", tempaud, "-c:v", "copy", saveto]);
                         } catch (error) {
                             show_alert(error, "danger");
                         }
