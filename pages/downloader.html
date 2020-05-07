@@ -1,0 +1,73 @@
+<div>
+    <link rel="stylesheet" href="./../static/css/downloader.css">
+    <h3>YouTube Downloader</h3>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Video URL</span>
+        </div>
+        <input type="text" class="form-control" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx" id="urlbar-input" value="" onclick="this.select();">
+        <div class="input-group-append">
+            <button class="btn btn-success" id="urlbar-apply" onclick="apply_url();">Apply</button>
+            <button class="btn btn-warning" id="urlbar-applying" disabled hidden><span class="spinner-border spinner-border-sm"></span></button>
+            <button class="btn btn-danger" id="urlbar-change" onclick="reset();" hidden>Change</button>
+        </div>
+    </div>
+    <div id="alert_wrapper"></div>
+    <hr class="bg-white">
+    <div id="video-spec" hidden>
+        <div id="video-preview" class="float-left">
+            <img src="" class="rounded float-left" alt="" id="video-thumbnail"><br><br>
+            <div>
+                <span id="video-views"></span><br>
+                <span id="video-author"></span><br>
+                <span id="video-lenght"></span>
+            </div><br><br><br>
+            <h4 id="video-title"></h4>
+        </div>
+        <div id="dwn-config" class="float-right">
+            Possible Output formats:
+            <select class="custom-select" id="dwn-formatselect">
+                <option value="none" disabled> -- Video&Audio Presets -- </option>
+                <option value="highest">Highest Video&Audio</option>
+                <option value="lowest">Lowest Video&Audio</option>
+                <option value="none" disabled> -- Video Presets -- </option>
+                <option value="highestvideo">Highest Video</option>
+                <option value="lowestvideo">Lowest Video</option>
+                <option value="none" disabled> -- Audio Presets -- </option>
+                <option value="highestaudio">Highest Audio</option>
+                <option value="lowestaudio">Lowest Audio</option>
+                <option value="none" disabled> -- All -- </option>
+            </select>
+            <br><br>
+            Save Path:
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Directory</span>
+                </div>
+                <input type="text" class="form-control" placeholder="C:/Users/User/Path/To/Save/To" id="dwn-savepath" disabled>
+                <div class="input-group-append">
+                    <button class="btn btn-danger" id="dwn-savepath-change" onclick="setsavepath();">Change</button>
+                </div>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customNamecheck">
+                <label class="custom-control-label" for="customNamecheck">Custom Filename</label>
+            </div>
+            <div class="input-group mb-3" id="dwn-customname-div" hidden>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Filename</span>
+                </div>
+                <input type="text" class="form-control" placeholder="RandomFilename" id="dwn-customname">
+            </div>
+            <br>
+            <div class="progress" id="dwn-progressbar-div">
+                <div class="progress-bar" id="dwn-progress"></div>
+            </div>
+            <br>
+            <button onclick="download();" class="btn btn-success" id="dwn-start">Download</button>
+            <button class="btn btn-warning" id="dwn-prog" disabled hidden><span class="spinner-border spinner-border-sm"></span> Downloading</button>
+            <button class="btn btn-danger" id="dwn-abort" hidden>Cancel</button>
+        </div>
+    </div>
+</div>
+<script src="./../static/js/downloader.js"></script>
