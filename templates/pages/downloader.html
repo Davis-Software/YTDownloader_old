@@ -5,7 +5,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text">Video URL</span>
         </div>
-        <input type="text" class="form-control" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx" id="urlbar-input" value="" onclick="this.select();">
+        <input type="text" class="form-control" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx" id="urlbar-input" value="https://www.youtube.com/watch?v=r2KABR4IfUA" onclick="this.select();">
         <div class="input-group-append">
             <button class="btn btn-success" id="urlbar-apply" onclick="apply_url();">Apply</button>
             <button class="btn btn-warning" id="urlbar-applying" disabled hidden><span class="spinner-border spinner-border-sm"></span></button>
@@ -59,7 +59,21 @@
                 </div>
                 <input type="text" class="form-control" placeholder="RandomFilename" id="dwn-customname">
             </div>
-            <br>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="convertcheck">
+                <label class="custom-control-label" for="convertcheck">Convert</label>
+            </div>
+            <select class="custom-select" id="dwn-convert-div" hidden>
+                <option value="none" disabled> -- Video -- </option>
+                <option value="mp4">MP4</option>
+                <option value="avi">AVI</option>
+                <option value="webm">WEBM</option>
+                <option value="none" disabled> -- Audio -- </option>
+                <option value="mp3">MP3</option>
+                <option value="ogg">OGG Vobris</option>
+                <option value="wav">WAV Wave</option>
+            </select>
+            <br><br>
             <div class="progress" id="dwn-progressbar-div">
                 <div class="progress-bar" id="dwn-progress"></div>
             </div>

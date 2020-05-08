@@ -1,6 +1,7 @@
 var ytdl = require('ytdl-core');
 var filesystem = require("fs")
-var { dialog } = require('electron').remote
+var { dialog, getCurrentWindow } = require('electron').remote
+var win = getCurrentWindow();
 var { shell } = require('electron')
 // var { exec } = require('child_process');
 // var { execSync } = require('child_process');
@@ -34,6 +35,8 @@ var dwn_formatselect = document.getElementById("dwn-formatselect");
 var dwn_savepath = document.getElementById("dwn-savepath");
 var customNamecheck = document.getElementById("customNamecheck");
 var dwn_customname_div = document.getElementById("dwn-customname-div");
+var convertcheck = document.getElementById("convertcheck");
+var dwn_convertformat = document.getElementById("dwn-convert-div")
 var dwn_customname = document.getElementById("dwn-customname");
 var dwn_start = document.getElementById("dwn-start");
 var dwn_prog = document.getElementById("dwn-prog");
@@ -45,22 +48,43 @@ function download(){
     var ready = false;
     var saveto = `${dwn_savepath.value}/`;
     var itag = dwn_formatselect.options[dwn_formatselect.selectedIndex].value;
+    var custformat;
     if(itag=="highest" && !filesystem.existsSync(ffmpeg)){show_alert("Highest Video&Audio requires ffmpeg, please specify in Settings!", "danger")}
     else{
         if(filesystem.existsSync(dwn_savepath.value)){
+            function teststringsupp(str){
+                var unsup_list = ["/", "\\", ":", "*", "?", '"', "<", ">", "|"];
+                for (x of unsup_list){
+                    if(str.includes(x)){
+                        return {"state": false, "chr": x};
+                    }
+                }
+                return {"state": true};
+            }
+            var title;
             if(customNamecheck.checked){
                 if(dwn_customname.value != ""){
-                    saveto += dwn_customname.value;
-                    ready = true;
+                    title = dwn_customname.value;
                 }else{
                     show_alert("No Custom Filename given", "warning")
                 }
             }else{
-                saveto += info.player_response.videoDetails.title.replaceAll(" ", "\ ");
-                ready = true;
+                title = info.player_response.videoDetails.title;
+            }
+            var resp_of_check = teststringsupp(title);
+            if(resp_of_check.state){
+                saveto += title;
+                ready = true
+            }else{
+                show_alert(`Unsupported character in savename: ${resp_of_check.chr}`, "danger")
+                return;
             }
             var exportformat = ytdl.chooseFormat(info.formats, {quality: itag});
-            saveto += `.${exportformat.container}`
+            if(convertcheck.checked){
+                custformat = dwn_convertformat[dwn_convertformat.selectedIndex].value;
+            }else{
+                custformat = exportformat.container;
+            }
             if(ready){
                 dwn_start.hidden = true;
                 dwn_prog.hidden = false;
@@ -80,11 +104,13 @@ function download(){
                         var percent = `${Math.round(((downloaded/total)*100)/2)}%`
                         dwn_progressbar.style.width = percent
                         dwn_progressbar.innerText = `1/2: ${percent}`
+                        win.setProgressBar((download/total)/2)
                     });
                     audiostream.addListener("progress", function(chunk, downloaded, total){
                         var percent = `${Math.round((((downloaded/total)*100)/2)+50)}%`
                         dwn_progressbar.style.width = percent
                         dwn_progressbar.innerText = `2/2: ${percent}`
+                        win.setProgressBar((download/total)+50)
                     });
                     videostream.addListener("end", dwn_aud_part); audiostream.addListener("end", comnine_parts);
                     videostream.addListener("close", dwn_reset); audiostream.addListener("close", dwn_reset);
@@ -115,7 +141,7 @@ function download(){
                         dwn_progressbar.innerText = "Converting";
                         try {
                             // execSync(`${ffmpeg} -i "${tempvid}" -i "${tempaud}" -c:v copy "${saveto}"`);
-                            spawnSync(`${ffmpeg}`,["-i", tempvid, "-i", tempaud, "-c:v", "copy", saveto]);
+                            spawnSync(`${ffmpeg}`,["-i", tempvid, "-i", tempaud, "-c:v", "copy", saveto + `.${custformat}`]);
                         } catch (error) {
                             show_alert(error, "danger");
                         }
@@ -130,12 +156,18 @@ function download(){
                         var percent = `${Math.round((downloaded/total)*100)}%`
                         dwn_progressbar.style.width = percent
                         dwn_progressbar.innerText = percent
+                        win.setProgressBar(downloaded/total)
                     })
-                    stream.addListener("end", dwn_reset)
                     stream.addListener("close", dwn_reset)
                     stream.addListener("error", dwn_reset)
                     try {
-                        stream.pipe(fs.createWriteStream(saveto))
+                        var tempvid = `${cachedir}tempv_vid.${exportformat.container}`
+                        stream.pipe(fs.createWriteStream(tempvid))
+                        function conber(){
+                            spawnSync(`${ffmpeg}`,["-i", tempvid, saveto + `.${custformat}`]);
+                            dwn_reset();
+                        }
+                        stream.addListener("end", conber)
                     } catch (error) {
                         show_alert(error, "danger")
                         dwn_reset();
@@ -169,7 +201,6 @@ function apply_url(){
 }
 
 function set_preconfig(info){
-    console.log(info)
     var format_obj = "<option value='{{value}}'>{{name}}</option>";
     var formats = info.formats
     for(format of formats){
@@ -230,6 +261,7 @@ function dwn_reset(){
     dwn_progressbar.classList.remove("progress-bar-animated")
     dwn_progressbar.style.width = "0%"
     dwn_progressbar.innerText = ""
+    win.setProgressBar(0)
 }
 
 function show_alert(message, alert){
@@ -248,4 +280,8 @@ function show_alert(message, alert){
 
 customNamecheck.addEventListener("click", function(ev){
     dwn_customname_div.hidden = !customNamecheck.checked;
-})
+});
+
+convertcheck.addEventListener("click", function(ev){
+    dwn_convertformat.hidden = !convertcheck.checked;
+});
