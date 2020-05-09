@@ -142,6 +142,7 @@ function download(){
                         try {
                             // execSync(`${ffmpeg} -i "${tempvid}" -i "${tempaud}" -c:v copy "${saveto}"`);
                             spawnSync(`${ffmpeg}`,["-i", tempvid, "-i", tempaud, "-c:v", "copy", saveto + `.${custformat}`]);
+                            setCacheVal("downloads", getCacheVal("downlodas")+1)
                         } catch (error) {
                             show_alert(error, "danger");
                         }
@@ -165,6 +166,7 @@ function download(){
                         stream.pipe(fs.createWriteStream(tempvid))
                         function conber(){
                             spawnSync(`${ffmpeg}`,["-i", tempvid, saveto + `.${custformat}`]);
+                            setCacheVal("downloads", getCacheVal("downlodas")+1)
                             dwn_reset();
                         }
                         stream.addListener("end", conber)
@@ -219,10 +221,12 @@ function setsavepath(){
             "openDirectory"
         ]
     });
-    if(path===undefined){
+    if(path===undefined || path===""){
         path = ""
+    }else{
+        dwn_savepath.value = path;
     }
-    dwn_savepath.value = path;
+    
 }
 
 function set_preview(info){
@@ -235,8 +239,8 @@ function set_preview(info){
     var thumb = `http://i3.ytimg.com/vi/${id}/maxresdefault.jpg`
     video_thumbnail.src = thumb
     video_views.innerText = `Views: ${views}`
-    video_author.innerHTML = `Channel: <a domain="${authorURL}" onclick="opendomain(this);" class="link" style="color: rgb(0, 110, 255);">${author}</a>`
-    video_length.innerText = `Length: ${Math.round(length/60)} min`
+    video_author.innerHTML = `Channel: <br><a style="padding-left: 10px;" domain="${authorURL}" onclick="opendomain(this);" href="#">${author}</a>`
+    video_length.innerHTML = `Length: <br><span style="padding-left: 10px;">approx. ${Math.round(length/60)} min</span>`
     video_title.innerText = name
 }
 

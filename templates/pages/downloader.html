@@ -3,9 +3,9 @@
     <h3>YouTube Downloader</h3>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text">Video URL</span>
+            <span class="input-group-text">Video URL/ID</span>
         </div>
-        <input type="text" class="form-control" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx" id="urlbar-input" value="" onclick="this.select();">
+        <input type="text" class="form-control" placeholder="https://youtu.be/videoId" id="urlbar-input" value="" onclick="this.select();">
         <div class="input-group-append">
             <button class="btn btn-success" id="urlbar-apply" onclick="apply_url();">Apply</button>
             <button class="btn btn-warning" id="urlbar-applying" disabled hidden><span class="spinner-border spinner-border-sm"></span></button>
@@ -15,14 +15,14 @@
     <div id="alert_wrapper"></div>
     <hr class="bg-white">
     <div id="video-spec" hidden>
-        <div id="video-preview" class="float-left">
-            <img src="" class="rounded float-left" alt="" id="video-thumbnail"><br><br>
+        <div id="video-preview" class="float-left bg-secondary">
+            <img src="" class="rounded float-left" alt="" id="video-thumbnail"><br>
             <div>
-                <span id="video-views"></span><br>
-                <span id="video-author"></span><br>
-                <span id="video-lenght"></span>
+                <span id="video-views" style="padding-left: 10px;"></span><br>
+                <span id="video-author" style="padding-left: 10px;"></span><br>
+                <span id="video-lenght" style="padding-left: 10px;"></span>
             </div><br><br><br>
-            <h4 id="video-title"></h4>
+            <h4 id="video-title" style="user-select: text;"></h4>
         </div>
         <div id="dwn-config" class="float-right">
             Possible Output formats:
@@ -44,7 +44,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Directory</span>
                 </div>
-                <input type="text" class="form-control" placeholder="C:/Users/User/Path/To/Save/To" id="dwn-savepath" disabled>
+                <input type="text" class="form-control" placeholder="Save Path" id="dwn-savepath" disabled>
                 <div class="input-group-append">
                     <button class="btn btn-danger" id="dwn-savepath-change" onclick="setsavepath();">Change</button>
                 </div>
@@ -67,7 +67,8 @@
                 <option value="none" disabled> -- Video -- </option>
                 <option value="mp4">MP4</option>
                 <option value="avi">AVI</option>
-                <option value="webm">WEBM</option>
+                <option value="flv">FLV</option>
+                <option value="mov">MOV</option>
                 <option value="none" disabled> -- Audio -- </option>
                 <option value="mp3">MP3</option>
                 <option value="ogg">OGG Vobris</option>

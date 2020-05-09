@@ -18,10 +18,12 @@ function createWindow () {
       width: 1280,
       height: 720,
       resizable: false,
+      darkTheme: true,
       webPreferences: {
         nodeIntegration: true
       }
     });
+    win.setMenuBarVisibility(sethandle.getVal("devMode"))
     menuhandle.buildMenu();
     if(iswin32){
       win.setIcon(__dirname + '/static/logos/logo.ico');
@@ -37,16 +39,16 @@ function createWindow () {
   }else{
     app.quit()
   }
+//////////////////////////////////////////////////////////////////////////////////////////////////////
   if(filesystem.existsSync("./tools") && !filesystem.existsSync(sethandle.cachedir + "/tools")){
-    console.log("copy")
     filesystem.mkdirSync(sethandle.cachedir + "/tools")
     if(iswin32){
       filesystem.copyFileSync("./tools/ffmpeg.exe", sethandle.cachedir + "/tools/ffmpeg.exe")
     }else{
       filesystem.copyFileSync("./tools/ffmpeg", sethandle.cachedir + "/tools/ffmpeg")
     }
-    console.log("done")
   }
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 app.whenReady().then(createWindow)

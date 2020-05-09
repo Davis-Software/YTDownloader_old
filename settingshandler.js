@@ -41,7 +41,7 @@ function init_settings (){
         fs.writeFileSync(setfile, JSON.stringify(def_config));
     }
     if(!fs.existsSync(cachefile)){
-        fs.writeFileSync(cachefile, JSON.stringify({}));
+        fs.writeFileSync(cachefile, JSON.stringify({"downloads":0}));
     }
     settings = JSON.parse(fs.readFileSync(setfile, "utf8"));
     cachedata = JSON.parse(fs.readFileSync(cachefile, "utf8"));
