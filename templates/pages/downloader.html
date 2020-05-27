@@ -27,16 +27,25 @@
         <div id="dwn-config" class="float-right">
             Possible Output formats:
             <select class="custom-select" id="dwn-formatselect">
-                <option value="none" disabled> -- Video&Audio Presets -- </option>
-                <option value="highest">Highest Video&Audio</option>
-                <option value="lowest">Lowest Video&Audio</option>
-                <option value="none" disabled> -- Video Presets -- </option>
-                <option value="highestvideo">Highest Video</option>
-                <option value="lowestvideo">Lowest Video</option>
-                <option value="none" disabled> -- Audio Presets -- </option>
-                <option value="highestaudio">Highest Audio</option>
-                <option value="lowestaudio">Lowest Audio</option>
-                <option value="none" disabled> -- All -- </option>
+                <!-- <option value="none" disabled> -- Video&Audio Presets -- </option> -->
+                <optgroup label=" -- Video&Audio Presets -- ">
+                    <option value="highest">Highest Video&Audio</option>
+                    <option value="lowest">Lowest Video&Audio</option>
+                </optgroup>
+                <!-- <option value="none" disabled> -- Video Presets -- </option> -->
+                <optgroup label=" -- Video Presets -- ">
+                    <option value="highestvideo">Highest Video</option>
+                    <option value="lowestvideo">Lowest Video</option>
+                </optgroup>
+                <optgroup label=" -- Audio Presets -- ">
+                    <option value="highestaudio">Highest Audio</option>
+                    <option value="lowestaudio">Lowest Audio</option>
+                </optgroup>
+                <!-- <option value="none" disabled> -- Audio Presets -- </option> -->
+                <optgroup label=" -- All -- ">
+
+                </optgroup>
+                <!-- <option value="none" disabled> -- All -- </option> -->
             </select>
             <br><br>
             Save Path:
@@ -64,15 +73,19 @@
                 <label class="custom-control-label" for="convertcheck">Convert</label>
             </div>
             <select class="custom-select" id="dwn-convert-div" hidden>
-                <option value="none" disabled> -- Video -- </option>
-                <option value="mp4">MP4</option>
-                <option value="avi">AVI</option>
-                <option value="flv">FLV</option>
-                <option value="mov">MOV</option>
-                <option value="none" disabled> -- Audio -- </option>
-                <option value="mp3">MP3</option>
-                <option value="ogg">OGG Vobris</option>
-                <option value="wav">WAV Wave</option>
+                <!-- <option value="none" disabled> -- Video -- </option> -->
+                <optgroup label=" -- Video -- ">
+                    <option value="mp4">MP4</option>
+                    <option value="avi">AVI</option>
+                    <option value="flv">FLV</option>
+                    <option value="mov">MOV</option>
+                </optgroup>
+                <optgroup label=" -- Audio -- ">
+                    <option value="mp3">MP3</option>
+                    <option value="ogg">OGG Vobris</option>
+                    <option value="wav">WAV Wave</option>
+                </optgroup>
+                <!-- <option value="none" disabled> -- Audio -- </option> -->
             </select>
             <br><br>
             <div class="progress" id="dwn-progressbar-div">
