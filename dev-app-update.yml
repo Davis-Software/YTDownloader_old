@@ -1,0 +1,5 @@
+owner: Software-City
+repo: YTDownloader
+provider: github
+publishAutoUpdate: true
+updaterCacheDirName: swc_ytdownloader-updater

@@ -4,7 +4,7 @@ const path = require('path')
 const yaml = require('js-yaml')
 exports.default = async context => {
     let data = {
-        owner: "Davis-Software",
+        owner: "Software-City",
         repo: "YTDownloader",
         provider: "github",
         publishAutoUpdate: true,
