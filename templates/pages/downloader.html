@@ -58,6 +58,22 @@
                     <button class="btn btn-danger" id="dwn-savepath-change" onclick="setsavepath();">Change</button>
                 </div>
             </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="songmodecheck">
+                <label class="custom-control-label" for="songmodecheck">Song mode</label>
+            </div>
+            <div class="input-group mb-3" id="songmodecheck-div" hidden>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Artist</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Artist" id="dwn-artist">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Title</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Title" id="dwn-title">
+            </div>
+
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="customNamecheck">
                 <label class="custom-control-label" for="customNamecheck">Custom Filename</label>
@@ -66,8 +82,9 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Filename</span>
                 </div>
-                <input type="text" class="form-control" placeholder="RandomFilename" id="dwn-customname">
+                <input type="text" class="form-control" placeholder="Filename" id="dwn-customname">
             </div>
+
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="convertcheck">
                 <label class="custom-control-label" for="convertcheck">Convert</label>
@@ -87,6 +104,7 @@
                 </optgroup>
                 <!-- <option value="none" disabled> -- Audio -- </option> -->
             </select>
+
             <br><br>
             <div class="progress" id="dwn-progressbar-div">
                 <div class="progress-bar" id="dwn-progress"></div>

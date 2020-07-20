@@ -6,6 +6,7 @@ var { shell } = require('electron')
 // var { exec } = require('child_process');
 // var { execSync } = require('child_process');
 var { spawnSync } = require("child_process")
+var ffmetadata = require("ffmetadata")
 var info;
 
 var ffmpeg = cachedir + "/tools/ffmpeg"
@@ -37,6 +38,10 @@ var customNamecheck = document.getElementById("customNamecheck");
 var dwn_customname_div = document.getElementById("dwn-customname-div");
 var convertcheck = document.getElementById("convertcheck");
 var dwn_convertformat = document.getElementById("dwn-convert-div")
+var dwn_songmodecheck_div = document.getElementById("songmodecheck-div");
+var dwn_songmodecheck = document.getElementById("songmodecheck");
+var dwn_artist = document.getElementById("dwn-artist");
+var dwn_title = document.getElementById("dwn-title");
 var dwn_customname = document.getElementById("dwn-customname");
 var dwn_start = document.getElementById("dwn-start");
 var dwn_prog = document.getElementById("dwn-prog");
@@ -90,6 +95,25 @@ function download(){
                 dwn_prog.hidden = false;
                 dwn_abort.hidden = false;
                 var url = urlinput.value
+
+                function applyMeta(file){
+                    if(dwn_songmodecheck.checked){
+                        var data = {
+                            title: dwn_title.value,
+                            artist: dwn_artist.value
+                        }
+                    }else{
+                        var data = {
+                            title: title,
+                            artist: info.player_response.videoDetails.author
+                        }
+                    }
+                    ffmetadata.write(file, data, function(err) {
+                        if (err) console.error("Error writing cover art");
+                        else console.log("Cover art added");
+                    });
+                }
+
                 if(itag=="highest"){
                     var videostream = ytdl(url, {
                         filter: "videoonly",
@@ -142,6 +166,7 @@ function download(){
                         try {
                             // execSync(`${ffmpeg} -i "${tempvid}" -i "${tempaud}" -c:v copy "${saveto}"`);
                             spawnSync(`${ffmpeg}`,["-i", tempvid, "-i", tempaud, "-c:v", "copy", saveto + `.${custformat}`]);
+                            applyMeta(`${saveto}.${custformat}`)
                             setCacheVal("downloads", getCacheVal("downlodas")+1)
                         } catch (error) {
                             show_alert(error, "danger");
@@ -166,6 +191,7 @@ function download(){
                         stream.pipe(fs.createWriteStream(tempvid))
                         function conber(){
                             spawnSync(`${ffmpeg}`,["-i", tempvid, saveto + `.${custformat}`]);
+                            applyMeta(`${saveto}.${custformat}`)
                             setCacheVal("downloads", getCacheVal("downlodas")+1)
                             dwn_reset();
                         }
@@ -242,6 +268,9 @@ function set_preview(info){
     video_author.innerHTML = `Channel: <br><a style="padding-left: 10px;" domain="${authorURL}" onclick="opendomain(this);" href="#">${author}</a>`
     video_length.innerHTML = `Length: <br><span style="padding-left: 10px;">approx. ${Math.round(length/60)} min</span>`
     video_title.innerText = name
+
+    dwn_artist.value = name.split(" - ")[0]
+    dwn_title.value = name.split(" - ")[1]
 }
 
 function opendomain(btn){
@@ -281,6 +310,10 @@ function show_alert(message, alert){
                                 `
     }
 }
+
+dwn_songmodecheck.addEventListener("click", function(ev){
+    dwn_songmodecheck_div.hidden = !dwn_songmodecheck.checked;
+})
 
 customNamecheck.addEventListener("click", function(ev){
     dwn_customname_div.hidden = !customNamecheck.checked;
