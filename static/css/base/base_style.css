@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+*{
+    font-family: 'Roboto', sans-serif;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+body{
+    background-color: #222;
+}
+
+
+#window-frame{
+    display: block;
+    position: fixed;
+    height: 32px;
+    width: 100%;
+    background: #333333;
+    z-index: 2048;
+}
+.frame-logo img{
+    height: 20px;
+    margin-top: 6px;
+    margin-left: 6px;
+}
+.frame-logo span{
+    position: absolute;
+    width: max-content;
+    margin-top: 6px;
+    margin-left: 6px;
+    font-size: 14px;
+    font-weight: 10;
+}
+.frame-drag-section{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 32px;
+    -webkit-app-region: drag;
+}
+.frame-controls{
+    display: grid;
+    grid-template-columns: repeat(2, 46px);
+    position: absolute;
+    top: 0;
+    right: 0;
+    -webkit-app-region: no-drag;
+}
+.frame-btn{
+    grid-row: 1 / span 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 32px;
+    transition: all .15s;
+}
+.frame-btn .icon {
+    width: 11px;
+    height: 11px;
+}
+.frame-btn:hover{
+    background: #414141;
+    cursor: pointer;
+}
+.frame-btn:active{
+    background: #545454;
+}
+.frame-btn.close_ico:hover{
+    background: #E81123 !important;
+}
+.frame-btn.close_ico:active{
+    background: #F1707A !important;
+}
+
+
+.icon{
+    height: 40px;
+}
+.icon.i-2{
+    height: 80px;
+}
+.icon.round{
+    border-radius: 25px;
+}
+
+
+
+.enlarge{
+    transition: all .2s;
+    cursor: zoom-in;
+}
+.enlarge:focus{
+    tab-index: 0;
+    cursor: crosshair;
+    transform: scale(1.5) translateX(17.5%) translateY(17.5%);
+}
+
+#main{
+    padding-top: 32px;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+
+.textbutton {
+    background: none;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+.textbutton.icon-fix{
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+.textbutton:focus {
+    box-shadow: none;
+    outline: none;
+}
+.textbutton.blue{
+    color: #0065b8;
+}
+.textbutton.green{
+    color: #00bc8c;
+}
+.textbutton.red {
+    color: #E74C3C;
+}
+.field-label{
+    color: #808080;
+}
+.material-icons{
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+.pointer{
+    cursor: pointer;
+}
+.hover-small{
+    transition: all .2s;
+}
+.hover-small:hover{
+    transform: scale(1.01, 1.01);
+}
+
+
+
+
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+::-webkit-scrollbar-track {
+    background: rgb(102, 102, 102);
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 25px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

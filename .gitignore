@@ -1,0 +1,6 @@
+/package-lock.json
+/.idea
+/dist
+/node_modules
+/dev-app-update.yml
+/build
