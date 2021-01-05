@@ -99,11 +99,17 @@ const sendStatusToWindow = (text) => {
 };
 
 autoUpdater.on('update-available', info => {
-    win.loadFile('templates/update.html');
+    win.loadFile('./templates/update.html').then(()=>{
+        autoUpdater.downloadUpdate().then()
+        if (win) {
+            win.webContents.send('info', info)
+        }
+    })
+
 });
 autoUpdater.on('error', err => {
-    sendStatusToWindow(["error", `Error in auto-updater: ${err.toString()}`]);
-});
+    sendStatusToWindow(["error", `Error in auto-updater: ${err.toString()}`])
+})
 autoUpdater.on('download-progress', progressObj => {
     sendStatusToWindow(
         ["downloading", {"speed": progressObj.bytesPerSecond, "progress": progressObj.percent, "transferred": progressObj.transferred, "total": progressObj.total}]
