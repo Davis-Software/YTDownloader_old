@@ -1,66 +1,60 @@
 {
-  "productName": "YT Downloader",
-  "homepage": "https://software-city.org/",
-  "bugs": {
-    "url": "https://github.com/Software-City/YTDownloader/issues",
-    "email": "support@software-city.org"
-  },
-  "author": {
-    "name": "Software City Team",
-    "email": "support@software-city.org",
-    "url": "https://github.com/Software-City/YTDownloader"
-  },
-  "name": "swc_ytdownloader",
-  "version": "0.1.2",
-  "description": "Download and convert Videos from YouTube",
-  "repository": "https://github.com/Software-City/YTDownloader",
-  "license": "MIT",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron .",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder --x64 --win",
-    "distlinux": "electron-builder --x64 --linux",
-    "publish": "electron-builder --x64 --win -p always",
-    "publishlinux": "electron-builder --x64 --linux -p always"
-  },
-  "devDependencies": {
-    "electron": "^8.3.4",
-    "electron-builder": "^22.7.0"
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.4.2",
-    "bootstrap": "^4.5.0",
-    "electron-updater": "^4.2.5",
-    "ffmetadata": "^1.6.0",
-    "jquery": "^3.3.1",
-    "popper.js": "^1.14.4",
-    "ytdl-core": "^2.1.7"
-  },
-  "build": {
-    "appId": "org.software-city.projects.ytdownloader",
-    "afterPack": "./afterPackHook.js",
-    "extraFiles": [
-      "tools"
-    ],
-    "linux": {
-      "target": "AppImage",
-      "icon": "dist-resources/1024x1024.png",
-      "category": "Utility",
-      "publish": {
-        "provider": "github",
-        "publishAutoUpdate": true,
-        "releaseType": "release"
-      }
+    "productName": "YT Downloader",
+    "homepage": "https://software-city.org/",
+    "bugs": {
+        "url": "https://github.com/Software-City/YTDownloader/issues",
+        "email": "support@software-city.org"
     },
-    "win": {
-      "target": "nsis",
-      "icon": ".\\dist-resources\\icon.ico",
-      "publish": {
-        "provider": "github",
-        "publishAutoUpdate": true,
-        "releaseType": "release"
-      }
+    "author": {
+        "name": "Software City Team",
+        "email": "support@software-city.org",
+        "url": "https://github.com/Software-City/YTDownloader"
+    },
+    "name": "swc_ytdownloader",
+    "version": "0.1.5",
+    "description": "Download and convert Videos from YouTube",
+    "repository": "https://github.com/Software-City/YTDownloader",
+    "license": "MIT",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder --x64 --win",
+        "distlinux": "electron-builder --x64 --linux",
+        "distmacOS": "electron-builder --x64 --mac",
+        "publish": "electron-builder --x64 --win -p always",
+        "publishlinux": "electron-builder --x64 --linux -p always",
+        "publishmacOS": "electron-builder --x64 --mac -p always"
+    },
+    "devDependencies": {
+        "electron": "^8.5.5",
+        "electron-builder": "^22.9.1"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "electron-updater": "^4.3.5",
+        "ffmetadata": "^1.6.0",
+        "ytdl-core": "^4.4.0"
+    },
+    "build": {
+        "appId": "org.software-city.projects.ytdownloader",
+        "extraFiles": [
+            "tools"
+        ],
+        "win": {
+            "target": "nsis",
+            "icon": "./static/logo/512x512.ico",
+            "publish": {
+                "provider": "github",
+                "publishAutoUpdate": true,
+                "releaseType": "release"
+            }
+        },
+        "protocols": {
+            "name": "YT Downloader",
+            "schemes": [
+                "swc_ytdownloader"
+            ]
+        }
     }
-  }
 }

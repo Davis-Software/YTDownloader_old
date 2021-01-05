@@ -1,65 +1,90 @@
 <html>
     <head>
         <style>
-            #load{
-                margin-left: 49.1vw;
-                margin-top:35vh;
-            }
-            #cont{
-                padding-top: 2vh;
-                text-align: center;
-            }
             .progress{
                 width: 50%;
                 margin-top: 2vh;
                 margin-left: 25vw;
             }
+            .bbtt:hover{
+                background: none !important;
+                cursor: default !important;
+            }
+            .bbtt img{
+                opacity: 50%;
+            }
         </style>
+
+        <title>YT Downloader</title>
+
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/darkly/bootstrap.min.css">
-        <script>let $ = require('jquery');</script>
-        <script>require('popper.js');</script>
-        <script>require('bootstrap');</script>
+
+        <link rel='stylesheet' href="../static/css/base/base_style.css">
+        <link rel='stylesheet' href="../static/modules/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <script src="../static/modules/jquery.min.js"></script> <!-- Do not update/replace as it is modified to run in node.js environment! -->
+        <script src="../static/modules/bootstrap/popper.min.js"></script>
+        <script src="../static/modules/bootstrap/bootstrap.min.js"></script>
+
     </head>
     <body>
-        <div id="load"></div>
-        <div id="cont">
-            Downloading new update... <br><br>
-            <div id="updateinfo">
-                <div class="progress" style="height:20px">
-                    <div id="prgbar" class="progress-bar progress-bar-striped progress-bar-animated">preparing...</div>
-                </div>
-                <span id="furthinfo">
 
-                </span>
-            </div>     
+    <div id="window-frame">
+        <div class="frame-logo"> <img src="../static/logo/512x512.png" alt="logo"> <span>YT Downloader</span></div>
+        <div class="frame-drag-section"></div>
+        <div class="frame-controls">
+            <div class="frame-btn" onclick="window_minimize()">
+                <img class="icon" src="./../static/logo/frame/min-w-30.png" alt="">
+            </div>
+            <div class="frame-btn bbtt">
+                <img class="icon" src="./../static/logo/frame/close-w-30.png" alt="">
+            </div>
         </div>
+    </div>
+
+
+    <div id="main" class="text-center" style="padding-top: 20%">
+        Downloading new update... <br><br>
+        <div id="updateinfo">
+            <div class="progress" style="height:20px">
+                <div id="prgbar" class="progress-bar progress-bar-striped progress-bar-animated">preparing...</div>
+            </div>
+            <span id="furthinfo"></span>
+            <div id="updinfo"></div>
+        </div>
+    </div>
+
+    <script src="../static/js/base/base_script.js"></script>
+    <script>
+        const { ipcRenderer } = require("electron");
+        const prgbar = document.getElementById("prgbar");
+        const info = document.getElementById("furthinfo");
+        prgbar.style.width = "100%"
+        ipcRenderer.on("updatemessage", function(event, text){
+            if(text[0] == "downloading"){
+                var resp = text[1];
+                var percent = Math.round(resp.progress) + "%"
+                prgbar.style.width = percent;
+                prgbar.innerText = percent;
+                var kbps = Math.round(progressObj.bytesPerSecond/1024);
+                var trans = Math.round(progressObj.transferred/1024);
+                var total = Math.round(progressObj.total/1024)
+                info.innerText = `Download speed: ${kbps} - Downloaded ${trans} / ${total}`
+            }else if(text[0] == "error"){
+                prgbar.classList.add("bg-danger")
+                info.innerText = text[1];
+                if(confirm(text[1])){
+                    window.location.href = "login.html"
+                }else{
+                    window.location.href = "login.html"
+                }
+            }
+        })
+    </script>
+
     </body>
 </html>
-<script>
-    var { ipcRenderer } = require("electron");
-    var prgbar = document.getElementById("prgbar");
-    var info = document.getElementById("furthinfo");
-    prgbar.style.width = "100%"
-    ipcRenderer.on("updatemessage", function(event, text){
-        if(text[0] == "downloading"){
-            var resp = text[1];
-            var percent = Math.round(resp.progress) + "%"
-            prgbar.style.width = percent;
-            prgbar.innerText = percent;
-            var kbps = Math.round(progressObj.bytesPerSecond/1024);
-            var trans = Math.round(progressObj.transferred/1024);
-            var total = Math.round(progressObj.total/1024)
-            info.innerText = `Download speed: ${kbps} - Downloaded ${trans} / ${total}`
-        }else if(text[0] == "error"){
-            prgbar.classList.add("bg-danger")
-            info.innerText = text[1];
-            if(confirm(text[1])){
-                window.location.href = "login.html"
-            }else{
-                window.location.href = "login.html"
-            }
-        }
-    });
-</script>
