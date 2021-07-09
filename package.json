@@ -2,18 +2,18 @@
     "productName": "YT Downloader",
     "homepage": "https://software-city.org/",
     "bugs": {
-        "url": "https://github.com/Software-City/YTDownloader/issues",
+        "url": "https://github.com/Davis-Software/YTDownloader/issues",
         "email": "support@software-city.org"
     },
     "author": {
         "name": "Software City Team",
         "email": "support@software-city.org",
-        "url": "https://github.com/Software-City/YTDownloader"
+        "url": "https://github.com/Davis-Software/YTDownloader"
     },
     "name": "swc_ytdownloader",
     "version": "0.1.6",
     "description": "Download and convert Videos from YouTube",
-    "repository": "https://github.com/Software-City/YTDownloader",
+    "repository": "https://github.com/Davis-Software/YTDownloader",
     "license": "MIT",
     "main": "main.js",
     "scripts": {
