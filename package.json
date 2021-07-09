@@ -42,7 +42,7 @@
             "tools"
         ],
         "win": {
-            "target": "nsis",
+            "target": "nsis-web",
             "icon": "./static/logo/512x512.ico",
             "publish": {
                 "provider": "github",
