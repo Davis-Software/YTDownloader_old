@@ -42,8 +42,18 @@
             "tools"
         ],
         "win": {
-            "target": "nsis-web",
+            "target": "nsis",
             "icon": "./static/logo/512x512.ico",
+            "publish": {
+                "provider": "github",
+                "publishAutoUpdate": true,
+                "releaseType": "release"
+            }
+        },
+        "linux": {
+            "target": "deb",
+            "icon": "./static/logo/265x265.png",
+            "category": "Utility",
             "publish": {
                 "provider": "github",
                 "publishAutoUpdate": true,
