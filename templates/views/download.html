@@ -6,6 +6,7 @@
         </div>
         <input type="text" class="form-control" placeholder="https://youtu.be/videoId" id="urlbar-input" value="" onclick="this.select();">
         <div class="input-group-append">
+            <button class="btn btn-warning" id="urlbar-paste" onclick="paste_url();">Paste</button>
             <button class="btn btn-success" id="urlbar-apply" onclick="apply_url();">Apply</button>
             <button class="btn btn-warning" id="urlbar-applying" disabled hidden><span class="spinner-border spinner-border-sm"></span></button>
             <button class="btn btn-danger" id="urlbar-change" onclick="reset();" hidden>Change</button>
@@ -21,7 +22,7 @@
                 <span id="video-author" style="padding-left: 10px;"></span><br>
                 <span id="video-lenght" style="padding-left: 10px;"></span>
             </div><br><br><br>
-            <h4 id="video-title" style="user-select: text;"></h4>
+            <h4 id="video-title" style="user-select: text;"></h4><a href="#" onclick="copy_title()">Copy title</a>
         </div>
         <div id="dwn-config" class="float-right">
             Possible Output formats:
@@ -62,16 +63,20 @@
                 <input type="checkbox" class="custom-control-input" id="songmodecheck">
                 <label class="custom-control-label" for="songmodecheck">Song mode</label>
             </div>
-            <div class="input-group mb-3" id="songmodecheck-div" hidden>
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Artist</span>
+            <div id="songmodecheck-div" hidden>
+                <span>(Only works for "mp3", "ogg", "wav" files)</span>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Artist</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Artist" id="dwn-artist">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Title</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Title" id="dwn-title">
                 </div>
-                <input type="text" class="form-control" placeholder="Artist" id="dwn-artist">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Title</span>
-                </div>
-                <input type="text" class="form-control" placeholder="Title" id="dwn-title">
             </div>
+
 
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="customNamecheck">

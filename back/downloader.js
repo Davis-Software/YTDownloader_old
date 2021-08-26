@@ -110,7 +110,7 @@ ipcMain.on("download", (e, url, format, export_format, filename, meta) => {
         audio_stream.addListener("end", () => {
             try {
                 e.reply("download_convert")
-                // if(export_format.audio !== "mp4"){
+                // if(["mp3", "ogg", "wav"].includes(export_format.audio)){
                 //     const old = temp_aud
                 //     temp_aud = `${cache}temp_aud.mp4`
                 //     combiner = execFile(ffmpeg, ["-i", old, temp_aud], () => {

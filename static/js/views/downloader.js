@@ -10,6 +10,7 @@ let thumb
 
 
 let url_input = document.getElementById("urlbar-input");
+let url_paste = document.getElementById("urlbar-paste");
 let url_apply = document.getElementById("urlbar-apply");
 let url_apply_pr = document.getElementById("urlbar-applying");
 let url_change = document.getElementById("urlbar-change");
@@ -42,11 +43,12 @@ let dwn_progressbar = document.getElementById("dwn-progress");
 
 
 
+let custom_format;
+
 function download(){
     let ready = false;
     let save_to = `${dwn_savepath.value}/`;
     let itag = dwn_formatselect.options[dwn_formatselect.selectedIndex].value;
-    let custom_format;
     if(fs.existsSync(dwn_savepath.value)){
         function teststringsupp(str){
             let unsup_list = ["/", "\\", ":", "*", "?", '"', "<", ">", "|"];
@@ -113,7 +115,7 @@ function download(){
     }
 }
 
-ipcRenderer.on("download_start", (e) => {
+ipcRenderer.on("download_start", (_) => {
     dwn_formatselect.disabled = true
     customNamecheck.disabled = true
     convertcheck.disabled = true
@@ -122,33 +124,39 @@ ipcRenderer.on("download_start", (e) => {
     dwn_title.disabled = true
     dwn_customname.disabled = true
 })
-ipcRenderer.on("download_progress", (e, progress) => {
+ipcRenderer.on("download_progress", (_, progress) => {
     win.setProgressBar(progress.percent/100)
     dwn_progressbar.style.width = progress.percent + "%"
     dwn_progressbar.innerText = progress.percent + "%"
 })
-ipcRenderer.on("download_convert", (e) => {
+ipcRenderer.on("download_convert", (_) => {
     win.setProgressBar(100)
     dwn_progressbar.classList.add("progress-bar-striped");
     dwn_progressbar.classList.add("progress-bar-animated")
     dwn_progressbar.style.width = "100%";
     dwn_progressbar.innerText = "Converting";
 })
-ipcRenderer.on("download_apply", (e) => {
+ipcRenderer.on("download_apply", (_) => {
     win.setProgressBar(100)
     dwn_progressbar.classList.add("progress-bar-striped");
     dwn_progressbar.classList.add("progress-bar-animated")
     dwn_progressbar.style.width = "100%";
     dwn_progressbar.innerText = "Applying Metadata";
 })
-ipcRenderer.on("download_abort", (e) => {
+ipcRenderer.on("download_abort", (_) => {
     show_alert("Download aborted")
     dwn_reset()
 })
-ipcRenderer.on("download_complete", (e, file, meta) => {
-    // ffmeta.write(file, {title: meta.title, artist: meta.artist}, () => {
-    dwn_reset()
-    // })
+ipcRenderer.on("download_complete", (_, file, meta) => {
+    if(["mp3", "ogg", "wav"].includes(custom_format)){
+        ffmeta.write(file, {title: meta.title, artist: meta.artist}, () => {
+            dwn_reset()
+            show_info("Download Complete")
+        })
+    }else{
+        dwn_reset()
+        show_info("Download Complete")
+    }
 })
 
 
@@ -173,7 +181,7 @@ function setsavepath(){
     if(path===undefined || path === ""){
         path = ""
     }else{
-        dwn_savepath.value = path;
+        dwn_savepath.value = path
     }
 }
 function set_preview(info){
@@ -197,11 +205,25 @@ function open_domain(btn){
     require('electron').shell.openExternal(btn.getAttribute("domain")).then()
 }
 
+function copy_title(){
+    navigator.clipboard.writeText(
+        video_title.innerText
+    )
+    show_info("Copied Title to Clipboard")
+}
+
+function paste_url(){
+    navigator.clipboard.readText().then(e => {
+        if(!e) return
+        url_input.value = e
+    })
+}
+
 function apply_url(){
+    url_paste.hidden = true
     url_apply.hidden = true
     url_apply_pr.hidden = false
     ipcRenderer.invoke("info", url_input.value).then((video_info) => {
-        console.log(video_info)
         info = video_info
         set_preview(info)
         set_preconfig(info)
@@ -216,12 +238,13 @@ function apply_url(){
 }
 
 function reset(){
-    url_input.disabled = false;
-    url_apply.hidden = false;
-    url_apply_pr.hidden = true;
-    url_change.hidden = true;
-    control_div.hidden = true;
-    dwn_reset();
+    url_input.disabled = false
+    url_paste.hidden = false
+    url_apply.hidden = false
+    url_apply_pr.hidden = true
+    url_change.hidden = true
+    control_div.hidden = true
+    dwn_reset()
 }
 function dwn_reset(){
     dwn_formatselect.disabled = false
@@ -232,14 +255,20 @@ function dwn_reset(){
     dwn_title.disabled = false
     dwn_customname.disabled = false
 
-    dwn_start.hidden = false;
-    dwn_prog.hidden = true;
-    dwn_abort.hidden = true;
+    dwn_start.hidden = false
+    dwn_prog.hidden = true
+    dwn_abort.hidden = true
     dwn_progressbar.classList.remove("progress-bar-striped");
     dwn_progressbar.classList.remove("progress-bar-animated")
     dwn_progressbar.style.width = "0%"
     dwn_progressbar.innerText = ""
     win.setProgressBar(0)
+}
+
+function show_info(message){
+    let info = new Overlay("overlay", "err-1", "Info", "small")
+    info.Text("Download Complete")
+    info.modal()
 }
 
 function show_alert(message){
@@ -253,13 +282,13 @@ function show_alert(message){
 
 
 dwn_songmodecheck.addEventListener("click", function(){
-    dwn_songmodecheck_div.hidden = !dwn_songmodecheck.checked;
+    dwn_songmodecheck_div.hidden = !dwn_songmodecheck.checked
 })
 
 customNamecheck.addEventListener("click", function(){
-    dwn_customname_div.hidden = !customNamecheck.checked;
-});
+    dwn_customname_div.hidden = !customNamecheck.checked
+})
 
 convertcheck.addEventListener("click", function(){
-    dwn_convertformat.hidden = !convertcheck.checked;
-});
+    dwn_convertformat.hidden = !convertcheck.checked
+})
